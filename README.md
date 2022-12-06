@@ -63,6 +63,10 @@ exit
 ```
 设置开机自启
 ```shell
-pm2 restart openzz
-exit
+pm2 startup
+pm2 save
+```
+取消开机自启
+```shell
+pm2 unstartup
 ```
