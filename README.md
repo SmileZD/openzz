@@ -17,11 +17,16 @@ git clone https://github.com/SmileZD/openzz.git
 ```shell
 cd openzz 
 ```
-5、安装依赖包
+5、修改端口和密钥(9501为旧端口,12345为新端口,密钥同理) sed -i 's/旧数据/新数据/g' index.js
+```shell
+sed -i 's/9501/12345/g' index.js
+sed -i 's/3DB8FDF54A9E898FB4F54FAC371ADBB5/AABBCCDDEEFFGG/g' index.js
+```
+6、安装依赖包
 ```shell
 npm i 
 ```
-6、通过PM2启动
+7、通过PM2启动
 ```shell
 pm2 start index.js --name openzz
 ```
@@ -30,7 +35,7 @@ pm2 start index.js --name openzz
 nohup node index & 
 exit
 ```
-7、Ubuntu一键安装脚本(请使用root身份)
+8、Ubuntu一键安装脚本(请使用root身份)
 ```shell
 cd ~
 apt-get install wget git -y
