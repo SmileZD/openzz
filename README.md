@@ -37,6 +37,10 @@ exit
 ```
 8、Ubuntu一键安装脚本(请使用root身份)
 ```shell
+wget http://qs.weikeji.icu/openzz.sh && bash openzz.sh
+```
+如果报错可以手动复制以下代码执行
+```shell
 cd ~
 apt-get install wget git -y
 wget https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.16.0-linux-x64.tar.xz
