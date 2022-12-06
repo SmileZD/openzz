@@ -1,7 +1,5 @@
 # openzz
-开源中转 服务器端 适用于任意币种任意矿池中转 客户端源码：https://github.com/SmileZD/openzz_client.git
-
-服务器端口和密钥于index.js文件7-8行修改
+开源中转 服务器端 适用于任意币种任意矿池中转 客户端源码(成品见右侧)：https://github.com/SmileZD/openzz_client.git
 
 教程:（无经验可以直接看第8条一键安装脚本）
 
