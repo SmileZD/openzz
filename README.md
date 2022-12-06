@@ -30,3 +30,39 @@ pm2 start index.js --name openzz
 nohup node index & 
 exit
 ```
+7、Ubuntu一键安装脚本(请使用root身份)
+```shell
+cd ~
+apt-get install wget git -y
+wget https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.16.0-linux-x64.tar.xz
+tar -xvf node-v16.16.0-linux-x64.tar.xz
+cp -r ./node-v16.16.0-linux-x64 /usr/local/
+rm -rf ./node-v16.16.0-linux-x64
+rm -rf ./node-v16.16.0-linux-x64.tar.xz
+ln -s /usr/local/node-v16.16.0-linux-x64/bin/npm /usr/local/bin
+ln -s /usr/local/node-v16.16.0-linux-x64/bin/node /usr/local/bin
+npm i pm2 -g
+ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-runtime /usr/local/bin
+ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2 /usr/local/bin
+ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-dev /usr/local/bin
+ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-docker /usr/local/bin
+git clone https://github.com/SmileZD/openzz.git
+cd openzz
+npm i
+pm2 start index.js --name openzz
+```
+关闭命令
+```shell
+pm2 stop openzz
+exit
+```
+重启服务命令
+```shell
+pm2 restart openzz
+exit
+```
+设置开机自启
+```shell
+pm2 restart openzz
+exit
+```
