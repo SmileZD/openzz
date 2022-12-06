@@ -3,12 +3,12 @@ const tls = require('tls');
 const net = require('net');
 const ws = require('ws');
 
-//设置ws服务端口
+//服务端设置
 var serverPort=9501;//服务器ws端口
 var secretKey='3DB8FDF54A9E898FB4F54FAC371ADBB5';//服务器密钥 任意长度大于1的字符
 var key=Buffer.from(secretKey);
 
-//简单加密
+//加密
 function am(content){
     //字符串转字节
     let data=Buffer.from(content);
@@ -18,7 +18,7 @@ function am(content){
     return data.toString();
 }
 
-//简单解密
+//解密
 function em(content){
     //字符串转字节
     let data=Buffer.from(content);
@@ -50,6 +50,18 @@ function startws(){
             //尝试清理客户端
             try {wsc=null;} catch (error) {}
         })
+        wsc.on('error', function(code) {//监听当客户端异常关闭时
+            //尝试关掉矿池连接
+            try {
+                wsc.pool.forEach(element => {
+                    element.close();
+                    element=null;
+                });
+                wsc.pool=null;
+            } catch (error) {}
+            //尝试清理客户端
+            try {wsc=null;} catch (error) {}
+          })
     })
 }
 
@@ -72,18 +84,17 @@ function handleOnMessage(message,wsc){
                 try {wsc.pool[uuid].close()} catch (e) {}
                 if(data[3]=='1'||data[3]==1){
                     //建立新tcp连接 并赋值给客户端对象的pool数组，key为客户端id
-                    wsc.pool[uuid] = net.connect({ port: data[2], host: data[1] }, function () {//普通tcp连接 ssl连接使用tls
+                    wsc.pool[uuid] = net.connect({ port: data[2], host: data[1] }, function () {//普通tcp连接
                         //监听当收到矿池数据
                         wsc.pool[uuid].on('data', function (d) {try {wsc.send('o'+am(''+uuid+'$'+d.toString()))} catch (e) {}})//加密后尝试发给客户端
                     })
                 }else{
                     //建立新ssl连接 并赋值给客户端对象的pool数组，key为客户端id
-                    wsc.pool[uuid] = tls.connect({ port: data[2], host: data[1] ,rejectUnauthorized: false }, function () {//普通tcp连接 ssl连接使用tls
+                    wsc.pool[uuid] = tls.connect({ port: data[2], host: data[1] ,rejectUnauthorized: false }, function () {//ssl连接使用tls
                         //监听当收到矿池数据
                         wsc.pool[uuid].on('data', function (d) {try {wsc.send('o'+am(''+uuid+'$'+d.toString()))} catch (e) {}})//加密后尝试发给客户端
                     })
                 }
-
                 wsc.pool[uuid].on('close',function(){
                     try {
                         //矿池断开连接时，释放该连接
@@ -105,4 +116,7 @@ function handleOnMessage(message,wsc){
         console.log(e)     
     }
 }
-startws()
+process.on('uncaughtException', function (err) {
+    console.log('端口',serverPort,'被占用');
+  });
+startws() 
