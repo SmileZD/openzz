@@ -66,12 +66,10 @@ pm2 start index.js --name openzz
 关闭命令
 ```shell
 pm2 stop openzz
-exit
 ```
 重启服务命令
 ```shell
 pm2 restart openzz
-exit
 ```
 设置开机自启
 ```shell
