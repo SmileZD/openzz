@@ -41,6 +41,7 @@ wget http://qs.weikeji.icu/openzz.sh && bash openzz.sh
 ```shell
 cd ~
 apt-get install wget git -y
+#安装nodejs16
 wget https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.16.0-linux-x64.tar.xz
 tar -xvf node-v16.16.0-linux-x64.tar.xz
 cp -r ./node-v16.16.0-linux-x64 /usr/local/
@@ -48,14 +49,18 @@ rm -rf ./node-v16.16.0-linux-x64
 rm -rf ./node-v16.16.0-linux-x64.tar.xz
 ln -s /usr/local/node-v16.16.0-linux-x64/bin/npm /usr/local/bin
 ln -s /usr/local/node-v16.16.0-linux-x64/bin/node /usr/local/bin
+#安装pm2
 npm i pm2 -g
 ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-runtime /usr/local/bin
 ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2 /usr/local/bin
 ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-dev /usr/local/bin
 ln -s /usr/local/node-v16.16.0-linux-x64/lib/node_modules/pm2/bin/pm2-docker /usr/local/bin
+#下载源码
 git clone https://github.com/SmileZD/openzz.git
 cd openzz
+#安装依赖
 npm i
+#启动
 pm2 start index.js --name openzz
 ```
 关闭命令
